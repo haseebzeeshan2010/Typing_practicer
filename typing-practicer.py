@@ -31,7 +31,15 @@ while True:
     index, errors = 0, 0
     user_input = ''
     start_time = time.time()
-    while index < len(chosen_quote):
+    while index <= len(chosen_quote):  # Changed '<' to '<='
+        if index == len(chosen_quote):
+            end_time = time.time()
+            time_taken = end_time - start_time
+            char_count = index
+            wpm = (char_count / 5) / (time_taken / 60)
+            display_quote(chosen_quote, index, wpm, errors)
+            break  # Added a break to exit the loop after displaying the final state
+        
         char = chosen_quote[index]
         
         if char == user_input:
@@ -47,13 +55,10 @@ while True:
             errors += 1
         else:
             index += 1
-            if index == len(chosen_quote):
-                end_time = time.time()
-                time_taken = end_time - start_time
-                char_count = len(chosen_quote)
-                wpm = (char_count / 5) / (time_taken / 60)
-            else:
-                wpm = 0
+            end_time = time.time()
+            time_taken = end_time - start_time
+            char_count = index
+            wpm = (char_count / 5) / (time_taken / 60)
             display_quote(chosen_quote, index, wpm, errors)
     
     print("\nCongratulations! You typed the entire quote correctly.")
