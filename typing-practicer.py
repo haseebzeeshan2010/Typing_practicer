@@ -17,7 +17,7 @@ def getch():
 def display_quote(quote, index, wpm, error_count):
     if index < len(quote):
         highlighted_char = quote[index]
-        formatted_quote = quote[:index] + f"\033[1;33m{highlighted_char}\033[0m" + quote[index+1:]
+        formatted_quote = quote[:index] + f"\033[1;32m{highlighted_char}\033[0m" + quote[index+1:]
     else:
         formatted_quote = quote
     print("Type the following quote:")
