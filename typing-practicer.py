@@ -35,25 +35,24 @@ class TypingPractice:
             index, errors = 0, 0
             user_input = ''
             start_time = time.time()
-            while index <= len(chosen_quote):
-                if index == len(chosen_quote):
-                    end_time = time.time()
-                    time_taken = end_time - start_time
-                    char_count = index
-                    wpm = (char_count / 5) / (time_taken / 60)
-                    self.display_quote(chosen_quote, index, wpm, errors)
-                    break
-                
+            while index < len(chosen_quote):
                 char = chosen_quote[index]
                 user_input = self.getch()
                 
                 if user_input == char:
                     index += 1
-                    self.display_quote(chosen_quote, index, 0, errors)
+                    wpm = (index / 5) / ((time.time() - start_time) / 60)
+                    self.display_quote(chosen_quote, index, wpm, errors)
                 else:
                     print("\rIncorrect! Try again.", end='', flush=True)
                     self.display_quote(chosen_quote, index, 0, errors)
                     errors += 1
+            
+            end_time = time.time()
+            time_taken = end_time - start_time
+            char_count = len(chosen_quote)
+            wpm = (char_count / 4) / (time_taken / 60)
+            self.display_quote(chosen_quote, index, wpm, errors)
             
             print("\nCongratulations! You typed the entire quote correctly.")
             input("\nPress Enter to continue...")
