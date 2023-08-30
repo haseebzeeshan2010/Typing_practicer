@@ -10,7 +10,7 @@ class TypingPractice:
     
     def load_quotes(self, file_path):
         with open(file_path, 'r') as file:
-            quotes = [line.strip() for line in file.readlines()]
+            quotes = [line.strip() for line in file]
         return quotes
     
     def getch(self):
@@ -24,10 +24,7 @@ class TypingPractice:
         return ch
     
     def display_quote(self, quote, index, wpm, errors):
-        if index < len(quote):
-            formatted_quote = quote[:index] + f"\033[1;32m{quote[index]}\033[0m" + quote[index+1:]
-        else:
-            formatted_quote = quote
+        formatted_quote = quote[:index] + f"\033[1;32m{quote[index]}\033[0m" + quote[index+1:] if index < len(quote) else quote
         print(f"Type the following quote:\n{formatted_quote}\nAverage WPM: {wpm:.2f} | Errors: {errors}")
     
     def run(self):
@@ -48,25 +45,15 @@ class TypingPractice:
                     break
                 
                 char = chosen_quote[index]
-                
-                if char == user_input:
-                    index += 1
-                    user_input = ''
-                    self.display_quote(chosen_quote, index, 0, errors)
-                    continue
-                
                 user_input = self.getch()
-                if user_input != char:
+                
+                if user_input == char:
+                    index += 1
+                    self.display_quote(chosen_quote, index, 0, errors)
+                else:
                     print("\rIncorrect! Try again.", end='', flush=True)
                     self.display_quote(chosen_quote, index, 0, errors)
                     errors += 1
-                else:
-                    index += 1
-                    end_time = time.time()
-                    time_taken = end_time - start_time
-                    char_count = index
-                    wpm = (char_count / 5) / (time_taken / 60)
-                    self.display_quote(chosen_quote, index, wpm, errors)
             
             print("\nCongratulations! You typed the entire quote correctly.")
             input("\nPress Enter to continue...")
